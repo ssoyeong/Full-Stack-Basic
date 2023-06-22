@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <title>할 일 목록 페이지</title>
   <link rel="stylesheet" type="text/css" href="main.css"/>
-
+  <script src="main.js"></script>
 </head>
 <body>
 <header>
@@ -30,12 +30,13 @@
     </div>
     <ul class="main_items_container">
       <%
-        if(todolist.size() != 0) {
+        if(todolist != null) {
           for(Todo todoItem : todolist) {
       %>
       <li class="main_item_container">
         <div class="main_item_wrapper">
           <%
+            Long id = todoItem.getId();
             String title = todoItem.getTitle();
             st = new StringTokenizer(todoItem.getRegDate());
             String date = st.nextToken();
@@ -49,7 +50,7 @@
             등록날짜 <%=date%>, <%=name%>, 우선순위 <%=sequence%>
           </div>
         </div>
-        <button class="main_item_button">
+        <button class="main_item_button" onclick="nextButtonHandler(<%=id%>, 'TODO');">
           ➡️
         </button>
       </li>
@@ -66,12 +67,13 @@
     </div>
     <ul class="main_items_container">
       <%
-        if(doingList.size() != 0) {
+        if(doingList != null) {
           for(Todo todoItem : doingList) {
       %>
       <li class="main_item_container">
         <div class="main_item_wrapper">
           <%
+            Long id = todoItem.getId();
             String title = todoItem.getTitle();
             st = new StringTokenizer(todoItem.getRegDate());
             String date = st.nextToken();
@@ -85,7 +87,7 @@
             등록날짜 <%=date%>, <%=name%>, 우선순위 <%=sequence%>
           </div>
         </div>
-        <button class="main_item_button">
+        <button class="main_item_button" onclick="nextButtonHandler(<%=id%>, 'DOING');">
           ➡️
         </button>
       </li>
@@ -102,12 +104,13 @@
     </div>
     <ul class="main_items_container">
       <%
-        if(doneList.size() != 0) {
+        if(doneList != null) {
           for(Todo todoItem : doneList) {
       %>
       <li class="main_item_container">
         <div class="main_item_wrapper">
           <%
+            Long id = todoItem.getId();
             String title = todoItem.getTitle();
             st = new StringTokenizer(todoItem.getRegDate());
             String date = st.nextToken();
@@ -121,7 +124,7 @@
             등록날짜 <%=date%>, <%=name%>, 우선순위 <%=sequence%>
           </div>
         </div>
-        <button class="main_item_button">
+        <button class="main_item_button" onclick="nextButtonHandler(<%=id%>, 'DONE');">
           ➡️
         </button>
       </li>
@@ -141,6 +144,6 @@
   </div>
 </footer>
 
-<script src="main.js"></script>
+
 </body>
 </html>

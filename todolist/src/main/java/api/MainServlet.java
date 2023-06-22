@@ -37,7 +37,6 @@ public class MainServlet extends HttpServlet {
             else doneList.add(todo);
         }
 
-
         RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
         request.setAttribute("todoList", todoList);
         request.setAttribute("doingList", doingList);

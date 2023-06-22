@@ -90,6 +90,8 @@ public class TodoDao {
             e.printStackTrace();
         }
 
+        if(todo.getType().equals("DONE")) return updateCount;
+
         String newType = todo.getType().equals("TODO") ? "DOING" : "DONE";
         String query = "UPDATE todo SET type = ? where id = ?";
 
