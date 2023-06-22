@@ -10,6 +10,7 @@ import src.main.java.dao.TodoDao;
 import src.main.java.dto.Todo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/main")
@@ -26,8 +27,21 @@ public class MainServlet extends HttpServlet {
         TodoDao dao = new TodoDao();
         List<Todo> list = dao.getTodos();
 
+        // 힐 일을 타입별로 분류
+        List<Todo> todoList = new ArrayList<>();
+        List<Todo> doingList = new ArrayList<>();
+        List<Todo> doneList = new ArrayList<>();
+        for(Todo todo : list) {
+            if(todo.getType().equals("TODO")) todoList.add(todo);
+            else if(todo.getType().equals("DOING")) doingList.add(todo);
+            else doneList.add(todo);
+        }
+
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
-        request.setAttribute("todos", list);
+        request.setAttribute("todoList", todoList);
+        request.setAttribute("doingList", doingList);
+        request.setAttribute("doneList", doneList);
 
         dispatcher.forward(request, response);
     }
