@@ -14,9 +14,9 @@ public class Todo {
         this.type = type;
     }
 
-    public Todo(String name, String title, int sequence) {
-        this.name = name;
+    public Todo(String title, String name, int sequence) {
         this.title = title;
+        this.name = name;
         this.sequence = sequence;
     }
 
