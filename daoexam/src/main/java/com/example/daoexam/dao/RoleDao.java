@@ -1,6 +1,7 @@
 package com.example.daoexam.dao;
 
 import com.example.daoexam.dto.Role;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.daoexam.dao.RoleDaoSqls.*;
 
@@ -40,5 +42,19 @@ public class RoleDao {
     public int update(Role role) {
         SqlParameterSource params = new BeanPropertySqlParameterSource(role);       // Map으로 바꿔줌. 이름 값 매칭
         return jdbc.update(UPDATE, params);
+    }
+
+    public Role selectById(Integer id) {
+        try {
+            Map<String, ?> params = Collections.singletonMap("roleId", id);
+            return jdbc.queryForObject(SELECT_BY_ROLE_ID, params, rowMapper);
+        } catch(EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public int deleteById(Integer id) {
+        Map<String, ?> params = Collections.singletonMap("roleId", id);
+        return jdbc.update(DELETE_BY_ROLE_ID, params);
     }
 }
