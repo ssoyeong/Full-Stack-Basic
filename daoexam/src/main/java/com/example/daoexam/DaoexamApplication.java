@@ -8,6 +8,8 @@ public class DaoexamApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DaoexamApplication.class, args);
+
+		System.out.println("Hello:)");
 	}
 
 }
