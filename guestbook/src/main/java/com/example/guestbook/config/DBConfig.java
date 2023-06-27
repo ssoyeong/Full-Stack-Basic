@@ -26,7 +26,7 @@ public class DBConfig implements TransactionManagementConfigurer {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(driverClassName);
         dataSource.setUrl(url);
-        dataSource.setUrl(username);
+        dataSource.setUsername(username);
         dataSource.setPassword(password);
 
         return dataSource;
