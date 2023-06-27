@@ -6,6 +6,8 @@ import com.example.guestbook.service.GuestbookService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
+
 public class GuestbookServiceTest {
     public static void main(String[] args) {
 
@@ -16,8 +18,13 @@ public class GuestbookServiceTest {
         guestbook.setName("soyeong");
         guestbook.setContent("안녕하세용");
 
-        Guestbook result = guestbookService.addGuestbook(guestbook, "127.0.0.1");
-        System.out.println(result);
+//        Guestbook result = guestbookService.addGuestbook(guestbook, "127.0.0.1");
+//        System.out.println(result);
+
+        List<Guestbook> list = guestbookService.getGuestbooks(0);
+        for(Guestbook book : list) {
+            System.out.println(book.toString());
+        }
 
     }
 }
