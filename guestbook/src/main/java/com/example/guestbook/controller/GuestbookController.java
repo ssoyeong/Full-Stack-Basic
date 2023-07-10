@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,32 +21,15 @@ public class GuestbookController {
 
     @GetMapping("/list")
     public String list(@RequestParam(name = "start", required = false, defaultValue = "0") int start,
-                       ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+                       ModelMap model, @CookieValue(value="count", defaultValue = "0", required = true) String value,
+                       HttpServletResponse response) {
 
         // 방문자 수 집계를 위한 쿠키 처리
-        String value = null;
-        boolean find = false;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for(Cookie cookie : cookies) {
-                if("count".equals(cookie.getName())) {
-                    find = true;
-                    value = cookie.getValue();
-                    break;
-                }
-            }
-        }
-
-        if(!find) {
+        try {
+            int i = Integer.parseInt(value);
+            value = Integer.toString(++i);
+        } catch (Exception e) {
             value = "1";
-        }
-        else {
-            try {
-                int i = Integer.parseInt(value);
-                value = Integer.toString(++i);
-            } catch (Exception e) {
-                value = "1";
-            }
         }
 
         Cookie cookie = new Cookie("count", value);
