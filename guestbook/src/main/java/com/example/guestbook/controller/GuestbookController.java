@@ -2,7 +2,9 @@ package com.example.guestbook.controller;
 
 import com.example.guestbook.dto.Guestbook;
 import com.example.guestbook.service.GuestbookService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,7 +24,38 @@ public class GuestbookController {
 
     @GetMapping("/list")
     public String list(@RequestParam(name = "start", required = false, defaultValue = "0") int start,
-                       ModelMap model) {
+                       ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+
+        // 방문자 수 집계를 위한 쿠키 처리
+        String value = null;
+        boolean find = false;
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                if("count".equals(cookie.getName())) {
+                    find = true;
+                    value = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if(!find) {
+            value = "1";
+        }
+        else {
+            try {
+                int i = Integer.parseInt(value);
+                value = Integer.toString(++i);
+            } catch (Exception e) {
+                value = "1";
+            }
+        }
+
+        Cookie cookie = new Cookie("count", value);
+        cookie.setMaxAge(60 * 60 * 24 * 365);       // 1년 유지
+        cookie.setPath("/");        // 경로 이하에 모든 쿠키 적용
+        response.addCookie(cookie);
 
         // start로 시작하는 방명록 목록 구하기
         List<Guestbook> list = guestbookService.getGuestbooks(start);
@@ -42,6 +75,7 @@ public class GuestbookController {
         model.addAttribute("list", list);
         model.addAttribute("count", count);
         model.addAttribute("pageStartList", pageStartList);
+        model.addAttribute("cookieCount", value);
 
         return "list";      // list.jsp로 넘겨줌
     }
