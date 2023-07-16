@@ -1,5 +1,6 @@
 package com.example.guestbook.controller;
 
+import com.example.guestbook.argumentresolver.HeaderInfo;
 import com.example.guestbook.dto.Guestbook;
 import com.example.guestbook.service.GuestbookService;
 import jakarta.servlet.http.Cookie;
@@ -23,7 +24,11 @@ public class GuestbookController {
     @GetMapping("/list")
     public String list(@RequestParam(name = "start", required = false, defaultValue = "0") int start,
                        ModelMap model, @CookieValue(value="count", defaultValue = "0", required = true) String value,
-                       HttpServletResponse response) {
+                       HttpServletResponse response, HeaderInfo headerInfo) {
+
+        System.out.println("----------------------------");
+        System.out.println(headerInfo.get("user-agent"));
+        System.out.println("----------------------------");
 
         // 방문자 수 집계를 위한 쿠키 처리
         try {

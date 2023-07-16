@@ -1,11 +1,15 @@
 package com.example.guestbook.config;
 
+import com.example.guestbook.argumentresolver.HeaderMapArgumentResolver;
 import com.example.guestbook.interceptor.LogInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -37,6 +41,12 @@ public class WebMvcContextConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LogInterceptor());
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        System.out.println("argument resolver 등록");
+        argumentResolvers.add(new HeaderMapArgumentResolver());
     }
 
 }
