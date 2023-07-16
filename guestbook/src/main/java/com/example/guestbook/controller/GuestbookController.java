@@ -74,7 +74,7 @@ public class GuestbookController {
                          @SessionAttribute("isAdmin") String isAdmin,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {
-        if(isAdmin == null || "true".equals(isAdmin)) {
+        if(isAdmin == null || !"true".equals(isAdmin)) {
             redirectAttributes.addFlashAttribute("errorMessage", "로그인을 하지 않았습니다.");
             return "redirect:loginform";
         }

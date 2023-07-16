@@ -28,6 +28,12 @@ public class GuestbookAdminController {
             redirectAttributes.addFlashAttribute("errorMessage", "암호가 틀렸습니다.");
             return "redirect:/loginform";
         }
-        return "redirect:list";
+        return "redirect:/list";
+    }
+    
+    @GetMapping(path="/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("isAdmin");
+        return "redirect:/list";
     }
 }
